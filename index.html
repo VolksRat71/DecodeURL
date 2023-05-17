@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Decoder</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-dark text-white">
+    <div class="container mt-5">
+        <div class="form-group">
+            <label for="urlInput">Enter URL:</label>
+            <input id="urlInput" class="form-control" type="text" placeholder="Enter URL here">
+        </div>
+        <div class="form-group">
+            <label for="decodedUrlOutput">Decoded URL:</label>
+            <input id="decodedUrlOutput" class="form-control" type="text" readonly>
+        </div>
+    </div>
+    <script>
+        document.getElementById('urlInput').addEventListener('input', function(e) {
+            let fullUrl = e.target.value;
+            let urlObject = new URL(fullUrl);
+            let path = urlObject.pathname;
+
+            let base64String = path.substring(path.lastIndexOf('/') + 1);
+            base64String = decodeURIComponent(base64String);
+
+            try {
+                let decodedString = atob(base64String);
+                document.getElementById('decodedUrlOutput').value = decodedString;
+            } catch(e) {
+                document.getElementById('decodedUrlOutput').value = "Error: " + e.message;
+            }
+        });
+    </script>
+    <!-- Add Bootstrap JS and its dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
